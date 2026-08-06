@@ -27,7 +27,7 @@ Python 3.9 이상이면 됩니다. 설치할 패키지는 없습니다.
 [Upstage Console](https://console.upstage.ai/)에서 발급합니다.
 
 ```bash
-export UPSTAGE_API_KEY="up_..."
+export SOLAR_API_KEY="up_..."
 ```
 
 `~/.zshrc`나 `~/.bashrc`에 넣어 두면 편합니다.
@@ -61,9 +61,11 @@ python3 scripts/humanize.py 원고.md --dry-run    # 무엇을 보낼지만 확�
 
 | 이름 | 기본값 |
 |---|---|
-| `UPSTAGE_API_KEY` | (필수) |
-| `UPSTAGE_BASE_URL` | `https://api.upstage.ai/v1` |
-| `HUMANIZE_MODEL` | `solar-pro4` |
+| `SOLAR_API_KEY` | (필수) |
+| `SOLAR_BASE_URL` | `https://api.upstage.ai/v1` |
+| `SOLAR_MODEL` | `solar-pro4` |
+
+`UPSTAGE_API_KEY`·`UPSTAGE_BASE_URL`·`UPSTAGE_MODEL`도 폴백으로 받습니다. 이미 쓰고 계신 이름이 있다면 그대로 두셔도 됩니다.
 
 ### reasoning effort
 

@@ -65,6 +65,19 @@ USER_INSTRUCTION = (
 # 문서 분해 · 보호 구역
 # ---------------------------------------------------------------------------
 
+def _env(*names: str) -> Optional[str]:
+    """앞 이름부터 찾아 처음 채워진 값을 돌려준다.
+
+    스킬 전용 이름을 먼저 보고, 벤더 표준 이름을 폴백으로 받는다.
+    이미 표준 이름을 쓰던 환경을 깨지 않으면서 두 스킬의 변수 충돌을 막는다.
+    """
+    for n in names:
+        v = os.environ.get(n)
+        if v and v.strip():
+            return v.strip()
+    return None
+
+
 def is_protected_line(line: str, in_fence: bool) -> bool:
     """보호 구역 여부. 코드펜스 내부는 무조건 보호 — 구조 문법이 깨지면 복원이 불가능하다."""
     if in_fence:
@@ -429,8 +442,8 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     p.add_argument("-o", "--output", dest="output", help="출력 파일. 생략 시 stdout")
     p.add_argument(
         "--model",
-        default=os.environ.get("HUMANIZE_MODEL", DEFAULT_MODEL),
-        help=f"모델명 (기본: {DEFAULT_MODEL}, 환경변수 HUMANIZE_MODEL)",
+        default=_env("SOLAR_MODEL", "UPSTAGE_MODEL") or DEFAULT_MODEL,
+        help=f"모델명 (기본: {DEFAULT_MODEL}, 환경변수 SOLAR_MODEL)",
     )
     p.add_argument(
         "--temperature",
@@ -498,16 +511,16 @@ def main(argv: Optional[list[str]] = None) -> None:
     """진입점."""
     args = parse_args(argv)
 
-    api_key = os.environ.get("UPSTAGE_API_KEY", "").strip()
+    api_key = (_env("SOLAR_API_KEY", "UPSTAGE_API_KEY") or "").strip()
     if not api_key and not args.dry_run:
         print(
-            "오류: UPSTAGE_API_KEY 환경변수가 없습니다.\n"
-            "  export UPSTAGE_API_KEY=...  후 다시 실행하세요.",
+            "오류: SOLAR_API_KEY 환경변수가 없습니다.\n"
+            "  export SOLAR_API_KEY=up_...  후 다시 실행하세요.",
             file=sys.stderr,
         )
         sys.exit(2)
 
-    base_url = os.environ.get("UPSTAGE_BASE_URL", DEFAULT_BASE_URL).strip() or DEFAULT_BASE_URL
+    base_url = (_env("SOLAR_BASE_URL", "UPSTAGE_BASE_URL") or DEFAULT_BASE_URL).strip() or DEFAULT_BASE_URL
 
     try:
         text = read_input(args.input)

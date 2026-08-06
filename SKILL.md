@@ -12,10 +12,10 @@ description: 한국어 원고를 Solar(Upstage) API로 윤문합니다. 문장�
 API 키가 환경변수에 있어야 합니다.
 
 ```bash
-export UPSTAGE_API_KEY="up_..."
+export SOLAR_API_KEY="up_..."
 ```
 
-키가 없으면 종료 코드 2와 함께 안내가 나갑니다. 발급 경로는 README를 참고하십시오.
+키가 없으면 종료 코드 2와 함께 안내가 나갑니다. `UPSTAGE_API_KEY`도 폴백으로 받습니다.
 
 ## 호출
 
