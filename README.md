@@ -14,7 +14,7 @@
 
 **코드블록·표·제목·인용·리스트는 건드리지 않습니다.** 모델에게 보내지도 않으니 바이트 단위로 그대로 남습니다. 고유명사·수치·영문 약어·URL도 보존합니다.
 
-👉 **[글자 단위 수정 내역 보기](https://htmlpreview.github.io/?https://github.com/Pandoll-AI/humanize-solar/blob/main/examples/diff.html)** — 어디를 지우고 무엇을 넣었는지 색으로 표시했습니다.
+👉 **[수정 내역 보기](https://htmlpreview.github.io/?https://github.com/Pandoll-AI/humanize-solar/blob/main/examples/diff.html)** — 지운 자리와 넣은 자리를 글자 단위로 겹쳐 표시했습니다.
 
 ## 설치
 
