@@ -39,6 +39,9 @@ BLOCK_RE = re.compile(r"\[\[(\d+)\]\]\s*(.*?)(?=\n\s*\[\[\d+\]\]|\Z)", re.DOTALL
 LIST_RE = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+")
 # 구분선: --- *** ___ (3개 이상, 공백만 허용)
 HR_RE = re.compile(r"^\s*(?:-{3,}|\*{3,}|_{3,})\s*$")
+# 수정 이력 마크업. 이 태그가 든 줄을 윤문하면 <ins>/<del> 짝이 어긋나
+# 무엇을 고쳤는지 보여주려던 표시가 망가진다.
+DIFF_TAG_RE = re.compile(r"</?(?:ins|del|mark)>")
 FENCE_RE = re.compile(r"^\s*(```|~~~)")
 
 # 이 프롬프트에 금지·억제 조항을 추가하지 마라. 실측에서 '문장부호를 바꾸지 마라'
@@ -67,6 +70,10 @@ def is_protected_line(line: str, in_fence: bool) -> bool:
     if in_fence:
         return True
     if not line.strip():
+        return True
+    if DIFF_TAG_RE.search(line):
+        # 수정 이력 마크업이 있는 줄. 윤문하면 <ins>/<del> 짝이 어긋나
+        # 무엇을 고쳤는지 보여주려던 표시 자체가 망가진다.
         return True
     if FENCE_RE.match(line):
         return True
