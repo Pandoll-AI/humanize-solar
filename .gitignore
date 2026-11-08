@@ -18,3 +18,7 @@ venv/
 # 작업 산출물
 out/
 *.out.md
+
+# Local AI assistant workspace files
+.claude/
+.codex/
